@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday — Shweta 🎂</title>
+  <style>
+    :root{
+      --bg:#061026;
+      --card:#071428;
+      --accent:#ff6b6b;
+      --accent2:#ffd166;
+      --cream:#fff5e6;
+      --choc:#6b3520;
+      --glass: rgba(255,255,255,0.06);
+      --radius:18px;
+      --glass-2: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:radial-gradient(900px 400px at 10% 12%, rgba(255,107,107,0.05), transparent), linear-gradient(180deg,var(--bg), #04101a 70%);color:#f2f8ff}
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+
+    .stage{width:980px;max-width:96vw;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:22px;padding:22px;box-shadow:0 18px 60px rgba(2,6,23,0.7);backdrop-filter: blur(8px);display:grid;grid-template-columns:480px 1fr;gap:22px;align-items:center}
+
+    /* Left: cake area */
+    .canvas{background:linear-gradient(180deg,#071428 0%, #051427 100%);border-radius:16px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden}
+    .stage-title{font-weight:800;font-size:20px;color:#fff}
+    .sub{font-size:13px;color:rgba(230,238,248,0.78)}
+
+    .plate{width:420px;height:260px;display:flex;align-items:center;justify-content:center;position:relative}
+
+    .cake{position:relative;width:300px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:10px;z-index:30;transition:transform .9s cubic-bezier(.2,.9,.2,1)}
+    .layer{width:300px;height:54px;border-radius:28px;background:linear-gradient(180deg,var(--choc), #3f1f12);position:relative;box-shadow:inset 0 -12px 28px rgba(0,0,0,0.45);overflow:visible;display:flex;align-items:center;justify-content:center}
+    .frost-top{position:absolute;left:16px;right:16px;top:-20px;height:36px;border-radius:18px;background:linear-gradient(90deg,var(--cream),var(--accent2));box-shadow:0 10px 26px rgba(0,0,0,0.25)}
+
+    .candles{position:absolute;top:-52px;display:flex;gap:12px}
+    .candle{width:12px;height:36px;border-radius:6px;background:linear-gradient(180deg,#fff7e1,#fff1b3);box-shadow:0 6px 18px rgba(0,0,0,0.25);position:relative;display:flex;align-items:flex-start;justify-content:center}
+    .flame{width:9px;height:12px;border-radius:50% 50% 50% 50%;background: radial-gradient(circle at 30% 30%, #fff6b8,#ffd166 40%, #ff7b6b 80%);transform:translateY(-7px);box-shadow:0 8px 26px rgba(255,110,75,0.45)}
+
+    .plate-disc{position:absolute;bottom:10px;width:520px;height:64px;border-radius:999px;background:linear-gradient(180deg,#ffffff11,#00000000);box-shadow:0 10px 40px rgba(2,6,23,0.6);filter: blur(6px);}
+
+    /* Knife and action */
+    .controls{display:flex;flex-direction:column;gap:12px;padding:8px;width:100%;align-items:center}
+    .btn{background:linear-gradient(90deg,var(--accent),#ff8a8a);border:none;color:#071428;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 10px 28px rgba(255,107,107,0.14);transition:transform .12s}
+    .btn:active{transform:translateY(2px) scale(.995)}
+    .btn.secondary{background:linear-gradient(90deg,#ffd166,#fff2c9);color:#0b1220}
+
+    .knife{width:220px;height:46px;border-radius:999px;display:flex;align-items:center;gap:12px;padding:8px 12px;background:linear-gradient(90deg,#ffffff10,#ffffff06);border:1px solid rgba(255,255,255,0.04)}
+    .knife .blade{flex:1;height:12px;background:linear-gradient(90deg,#e8f1ff,#c6d6ef);border-radius:8px}
+
+    /* Right: wish + decorations */
+    .panel{padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;display:flex;flex-direction:column;gap:14px}
+    .wish-card{width:100%;height:320px;border-radius:14px;background:linear-gradient(180deg,#071428, #052032);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;box-shadow:0 12px 40px rgba(2,6,23,0.6);position:relative;overflow:hidden}
+
+    .wish-title{font-size:32px;font-weight:900;letter-spacing:0.6px;color:var(--accent2);text-align:center;opacity:0;transform:translateY(18px) scale(.98);transition:all .9s cubic-bezier(.2,.9,.2,1)}
+    .wish-sub{font-size:15px;color:rgba(230,238,248,0.86);opacity:0;transform:translateY(12px);transition:all .9s .12s cubic-bezier(.2,.9,.2,1)}
+
+    /* Balloons */
+    .balloon-wrap{position:absolute;inset:0;pointer-events:none;z-index:40}
+    .balloon{position:absolute;width:64px;height:84px;border-radius:50% 50% 46% 46%;display:flex;align-items:center;justify-content:center;transform-origin:center bottom;opacity:0}
+    .balloon::after{content:'';position:absolute;bottom:-18px;left:50%;width:2px;height:18px;background:linear-gradient(180deg,#333,#000);transform:translateX(-50%)}
+    .balloon.blue{background:linear-gradient(180deg,#7cc6ff,#5aaef0)}
+    .balloon.pink{background:linear-gradient(180deg,#ff9ac1,#ff6b9a)}
+    .balloon.yellow{background:linear-gradient(180deg,#ffe28a,#ffd166)}
+    .balloon.green{background:linear-gradient(180deg,#9ef5c1,#5fdd9a)}
+
+    /* Confetti pieces */
+    .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+    .confetti-piece{position:absolute;width:10px;height:14px;opacity:0;transform-origin:center;}
+
+    /* States after cut */
+    .cut .layer{transform:translateX(0)}
+    .cut .layer.left{transform:translateX(-220px) rotate(-12deg)}
+    .cut .layer.right{transform:translateX(220px) rotate(12deg)}
+    .cut .wish-title{opacity:1;transform:translateY(0) scale(1)}
+    .cut .wish-sub{opacity:1;transform:translateY(0)}
+
+    /* small responsive */
+    @media (max-width:920px){.stage{grid-template-columns:1fr;}.plate{height:220px}.wish-card{height:240px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="stage" id="stage">
+      <div class="canvas">
+        <div style="text-align:center">
+          <div class="stage-title">Make a wish for <span style="color:var(--accent2)">Shweta</span> 🎉</div>
+          <div class="sub">Tap <strong>Cut Cake</strong> to slice the cake — balloons & confetti will celebrate!</div>
+        </div>
+
+        <div class="plate">
+          <div class="cake" id="cake">
+            <div class="candles">
+              <div class="candle"><div class="flame"></div></div>
+              <div class="candle"><div class="flame"></div></div>
+              <div class="candle"><div class="flame"></div></div>
+            </div>
+
+            <div class="layer top frost" style="z-index:26">
+              <div class="frost-top" style="height:28px"></div>
+            </div>
+            <div class="layer mid left" style="z-index:24"></div>
+            <div class="layer mid right" style="z-index:22"></div>
+          </div>
+          <div class="plate-disc"></div>
+        </div>
+
+        <div class="controls">
+          <div class="knife" role="img" aria-label="knife">
+            <div style="font-weight:700">🔪</div>
+            <div class="blade"></div>
+            <div style="font-size:13px;color:rgba(230,238,248,0.7);">Cutting Knife</div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <button class="btn" id="cutBtn">Cut Cake</button>
+            <button class="btn secondary" id="resetBtn">Reset</button>
+          </div>
+        </div>
+
+        <!-- decorative confetti behind -->
+        <div class="confetti" id="confetti"></div>
+        <div class="balloon-wrap" id="balloons"></div>
+      </div>
+
+      <div class="panel">
+        <div class="wish-card" id="wishCard">
+          <div class="wish-title" id="wishTitle">Happy Birthday, Shweta! 🎂</div>
+          <div class="wish-sub" id="wishSub">May your day be filled with joy, love, and a mountain of cake.</div>
+          <div style="font-size:12px;color:rgba(230,238,248,0.65);margin-top:6px">— From everyone who loves you</div>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:center;justify-content:space-between">
+          <div style="color:rgba(230,238,248,0.78)">Share the wish or refresh for another surprise.</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn" id="shareBtn">Share</button>
+            <button class="btn secondary" id="surpriseBtn">Surprise</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Utilities
+    const stage = document.getElementById('stage');
+    const cake = document.getElementById('cake');
+    const cutBtn = document.getElementById('cutBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const confettiContainer = document.getElementById('confetti');
+    const balloonsWrap = document.getElementById('balloons');
+
+    // Create confetti pieces (hidden initially)
+    function createConfetti(count=40){
+      confettiContainer.innerHTML='';
+      const colors = ['#ff6b6b','#ffd166','#7cc6ff','#9ef5c1','#d6a4ff'];
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className='confetti-piece';
+        el.style.background = colors[i % colors.length];
+        el.style.left = (50 + (Math.random()-0.5)*60) + '%';
+        el.style.top = '40%';
+        confettiContainer.appendChild(el);
+      }
+    }
+
+    // Create balloons (hidden initially)
+    function createBalloons(){
+      balloonsWrap.innerHTML='';
+      const types = ['blue','pink','yellow','green','blue','pink'];
+      for(let i=0;i<types.length;i++){
+        const b = document.createElement('div');
+        b.className = 'balloon ' + types[i];
+        // starting positions
+        b.style.left = (10 + i*12) + '%';
+        b.style.bottom = '-40px';
+        balloonsWrap.appendChild(b);
+      }
+    }
+
+    // animate confetti burst
+    function burstConfetti(){
+      const pieces = Array.from(document.querySelectorAll('.confetti-piece'));
+      pieces.forEach((p, i)=>{
+        const angle = (Math.random()*120 - 60) * (Math.PI/180);
+        const speed = 200 + Math.random()*260;
+        const vx = Math.cos(angle) * speed;
+        const vy = -Math.sin(angle) * speed;
+        p.style.opacity = 1;
+        p.animate([
+          { transform: `translate(0px,0px) rotate(${Math.random()*360}deg)`, opacity:1 },
+          { transform: `translate(${vx}px, ${vy}px) rotate(${Math.random()*720}deg)`, opacity:1 },
+          { transform: `translate(${vx*1.6}px, ${vy*1.2 + 180}px) rotate(${Math.random()*1080}deg)`, opacity:0 }
+        ], { duration: 1600 + Math.random()*900, easing:'cubic-bezier(.2,.9,.2,1)' });
+      });
+    }
+
+    // animate balloons rising and wobbling
+    function launchBalloons(){
+      const bls = Array.from(document.querySelectorAll('.balloon'));
+      bls.forEach((b, i)=>{
+        b.style.opacity = 1;
+        const delay = i * 120;
+        // random horizontal drift
+        const drift = (Math.random()-0.5) * 120;
+        b.animate([
+          { transform: `translateY(0px) scale(0.9)`, left: b.style.left, opacity:0 },
+          { transform: `translateY(-520px) translateX(${drift}px) scale(1)`, left: b.style.left, opacity:1 }
+        ], { duration: 2200 + i*300 + Math.random()*800, delay, easing:'cubic-bezier(.2,.9,.2,1)', fill:'forwards' });
+        // tiny rotation/wobble loop
+        b.animate([
+          { transform: 'rotate(-6deg)' },
+          { transform: 'rotate(6deg)' },
+          { transform: 'rotate(-6deg)' }
+        ], { duration: 1800 + Math.random()*1000, delay, iterations: Infinity, easing:'ease-in-out' });
+      });
+    }
+
+    // Cut action
+    function cutCake(){
+      if(stage.classList.contains('cut')) return;
+      stage.classList.add('cut');
+      // split layers: add classes that will move left/right
+      const left = document.querySelector('.layer.mid.left');
+      const right = document.querySelector('.layer.mid.right');
+      left.classList.add('left');
+      right.classList.add('right');
+
+      // create and burst confetti & balloons
+      createConfetti(48);
+      createBalloons();
+      setTimeout(()=>{ burstConfetti(); launchBalloons(); }, 220);
+
+      // small scale pop of cake
+      cake.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.04)' },
+        { transform: 'scale(1)' }
+      ], { duration: 700, easing:'cubic-bezier(.2,.9,.2,1)' });
+
+      // make wish visible by adding cut (css handles)
+    }
+
+    // Reset
+    function resetAll(){
+      stage.classList.remove('cut');
+      const left = document.querySelector('.layer.mid.left');
+      const right = document.querySelector('.layer.mid.right');
+      if(left) left.classList.remove('left');
+      if(right) right.classList.remove('right');
+      confettiContainer.innerHTML='';
+      balloonsWrap.innerHTML='';
+    }
+
+    // Share (simple)
+    function shareWish(){
+      const text = encodeURIComponent('Happy Birthday Shweta! 🎉\nWishing you a wonderful day filled with love & cake.');
+      const url = `https://twitter.com/intent/tweet?text=${text}`;
+      window.open(url, '_blank');
+    }
+
+    // Surprise changes the subtitle randomly
+    const surpriseMessages = [
+      'May your year be as sweet as this cake!',
+      'Wishing you laughter, love, and endless cake slices!',
+      'Here’s to bright days and cozy nights — enjoy every moment.',
+      'Sparkle more, worry less. Happy Birthday!' 
+    ];
+    function surprise(){
+      const w = document.getElementById('wishSub');
+      w.textContent = surpriseMessages[Math.floor(Math.random()*surpriseMessages.length)];
+      // tiny pulse
+      w.animate([{ transform:'scale(1)' },{ transform:'scale(1.03)' },{ transform:'scale(1)' }], { duration:500 });
+    }
+
+    // Events
+    cutBtn.addEventListener('click', cutCake);
+    resetBtn.addEventListener('click', resetAll);
+    document.getElementById('shareBtn').addEventListener('click', shareWish);
+    document.getElementById('surpriseBtn').addEventListener('click', surprise);
+
+    // initial create so styles are ready if user cuts quickly
+    createConfetti(0);
+    createBalloons();
+  </script>
+</body>
+</html>
